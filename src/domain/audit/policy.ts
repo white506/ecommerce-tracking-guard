@@ -3,5 +3,5 @@ export type AuditPolicy = Readonly<{
 }>;
 
 export const AUDIT_POLICY_V1: AuditPolicy = {
-  monetaryToleranceMinor: 1n,
+  monetaryToleranceMinor: 0n,
 };
