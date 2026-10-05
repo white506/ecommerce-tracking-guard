@@ -1,0 +1,14 @@
+import type { AuditCheckId } from './check.js';
+
+export const AUDIT_CHECK_IDS = [
+  'TRANSACTION_MAPPING',
+  'PURCHASE_COVERAGE',
+  'MISSING_PURCHASES',
+  'ORPHAN_GA4_TRANSACTIONS',
+  'TRANSACTION_VALUE_INTEGRITY',
+  'CURRENCY_INTEGRITY',
+  'TRANSACTION_ID_INTEGRITY',
+  'ITEM_PRESENCE',
+  'ITEM_IDENTITY_INTEGRITY',
+  'REFUND_COVERAGE',
+] as const satisfies readonly AuditCheckId[];
