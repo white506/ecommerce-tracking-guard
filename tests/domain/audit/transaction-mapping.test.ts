@@ -23,7 +23,7 @@ describe('transactionMappingCheck', () => {
     );
 
     const finding = transactionMappingCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -46,6 +46,7 @@ describe('transactionMappingCheck', () => {
       {
         orders: [],
         transactions: [],
+        refunds: [],
         mapping: {
           status: mappingStatus,
           confidence: 'LOW',
@@ -71,6 +72,7 @@ describe('transactionMappingCheck', () => {
       {
         orders: [],
         transactions: [],
+        refunds: [],
         mapping: {
           status: 'UNRESOLVED',
           confidence: 'LOW',

@@ -17,6 +17,7 @@ describe('transactionValueIntegrityCheck', () => {
       {
         orders: [],
         transactions: [],
+        refunds: [],
         mapping: {
           status: mappingStatus,
           confidence: 'LOW',
@@ -65,7 +66,7 @@ describe('transactionValueIntegrityCheck', () => {
     expect(mapping.confidence).toBe('HIGH');
 
     const finding = transactionValueIntegrityCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -120,7 +121,7 @@ describe('transactionValueIntegrityCheck', () => {
     expect(mapping.status).toBe('RESOLVED');
 
     const finding = transactionValueIntegrityCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -151,7 +152,7 @@ describe('transactionValueIntegrityCheck', () => {
     expect(mapping.status).toBe('RESOLVED');
 
     const finding = transactionValueIntegrityCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -212,7 +213,7 @@ describe('transactionValueIntegrityCheck', () => {
     expect(mapping.status).toBe('RESOLVED');
 
     const finding = transactionValueIntegrityCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -275,7 +276,7 @@ describe('transactionValueIntegrityCheck', () => {
     expect(mapping.status).toBe('RESOLVED');
 
     const finding = transactionValueIntegrityCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -359,7 +360,7 @@ describe('transactionValueIntegrityCheck', () => {
     );
 
     const finding = transactionValueIntegrityCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -415,7 +416,7 @@ describe('transactionValueIntegrityCheck', () => {
     expect(mapping.status).toBe('RESOLVED');
 
     const finding = transactionValueIntegrityCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -493,7 +494,7 @@ describe('transactionValueIntegrityCheck', () => {
     expect(mapping.status).toBe('RESOLVED');
 
     const finding = transactionValueIntegrityCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 

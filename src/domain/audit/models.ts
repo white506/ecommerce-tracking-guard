@@ -1,4 +1,7 @@
-import type { AnalyticsTransaction } from '../analytics/models.js';
+import type {
+  AnalyticsRefund,
+  AnalyticsTransaction,
+} from '../analytics/models.js';
 import type { CanonicalOrder } from '../commerce/models.js';
 import type { TransactionMappingResult } from '../resolver/models.js';
 
@@ -45,5 +48,6 @@ export type Finding = Readonly<{
 export type AuditContext = Readonly<{
   orders: readonly CanonicalOrder[];
   transactions: readonly AnalyticsTransaction[];
+  refunds: readonly AnalyticsRefund[];
   mapping: TransactionMappingResult;
 }>;

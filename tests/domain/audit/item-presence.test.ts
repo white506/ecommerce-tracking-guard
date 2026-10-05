@@ -44,7 +44,7 @@ describe('itemPresenceCheck', () => {
     );
 
     const finding = itemPresenceCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -94,7 +94,7 @@ describe('itemPresenceCheck', () => {
     };
 
     const finding = itemPresenceCheck.run(
-      { orders: [order], transactions: [transaction], mapping },
+      { orders: [order], transactions: [transaction], refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -144,7 +144,7 @@ describe('itemPresenceCheck', () => {
     };
 
     const finding = itemPresenceCheck.run(
-      { orders: [order], transactions: [transaction], mapping },
+      { orders: [order], transactions: [transaction], refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -187,7 +187,7 @@ describe('itemPresenceCheck', () => {
     };
 
     const finding = itemPresenceCheck.run(
-      { orders: [], transactions: [], mapping },
+      { orders: [], transactions: [], refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -257,6 +257,7 @@ describe('itemPresenceCheck', () => {
       {
         orders: [missingOrder, unknownOrder],
         transactions: [missingTransaction, unknownTransaction],
+        refunds: [],
         mapping,
       },
       AUDIT_POLICY_V1,

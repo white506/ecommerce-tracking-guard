@@ -12,6 +12,7 @@ describe('purchaseCoverageCheck', () => {
       {
         orders: [],
         transactions: [],
+        refunds: [],
         mapping: {
           status: 'UNRESOLVED',
           confidence: 'LOW',
@@ -36,6 +37,7 @@ describe('purchaseCoverageCheck', () => {
       {
         orders: [],
         transactions: [],
+        refunds: [],
         mapping: {
           status: mappingStatus,
           confidence: 'LOW',
@@ -68,7 +70,7 @@ describe('purchaseCoverageCheck', () => {
     );
 
     const finding = purchaseCoverageCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -105,7 +107,7 @@ describe('purchaseCoverageCheck', () => {
     expect(mapping.matches).toHaveLength(4);
 
     const finding = purchaseCoverageCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 

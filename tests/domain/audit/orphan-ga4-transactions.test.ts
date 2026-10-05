@@ -16,6 +16,7 @@ describe('orphanGa4TransactionsCheck', () => {
       {
         orders: [],
         transactions: [],
+        refunds: [],
         mapping: {
           status: mappingStatus,
           confidence: 'LOW',
@@ -49,7 +50,7 @@ describe('orphanGa4TransactionsCheck', () => {
     expect(mapping.status).toBe('RESOLVED');
 
     const finding = orphanGa4TransactionsCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -85,7 +86,7 @@ describe('orphanGa4TransactionsCheck', () => {
     expect(mapping.matches).toHaveLength(4);
 
     const finding = orphanGa4TransactionsCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 

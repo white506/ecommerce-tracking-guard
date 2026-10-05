@@ -22,7 +22,7 @@ describe('transactionIdIntegrityCheck', () => {
     );
 
     const finding = transactionIdIntegrityCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -71,7 +71,7 @@ describe('transactionIdIntegrityCheck', () => {
       };
 
       const finding = transactionIdIntegrityCheck.run(
-        { orders: [order], transactions: [], mapping },
+        { orders: [order], transactions: [], refunds: [], mapping },
         AUDIT_POLICY_V1,
       );
 
@@ -103,7 +103,7 @@ describe('transactionIdIntegrityCheck', () => {
     };
 
     const finding = transactionIdIntegrityCheck.run(
-      { orders: [order], transactions: [transaction], mapping },
+      { orders: [order], transactions: [transaction], refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -144,7 +144,7 @@ describe('transactionIdIntegrityCheck', () => {
     };
 
     const finding = transactionIdIntegrityCheck.run(
-      { orders: [], transactions: [], mapping },
+      { orders: [], transactions: [], refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -188,7 +188,7 @@ describe('transactionIdIntegrityCheck', () => {
     };
 
     const finding = transactionIdIntegrityCheck.run(
-      { orders: [order], transactions: [transaction], mapping },
+      { orders: [order], transactions: [transaction], refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -247,6 +247,7 @@ describe('transactionIdIntegrityCheck', () => {
       {
         orders: [mismatchedOrder, unassessableOrder],
         transactions: [mismatchedTransaction, unassessableTransaction],
+        refunds: [],
         mapping,
       },
       AUDIT_POLICY_V1,

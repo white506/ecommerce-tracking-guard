@@ -17,6 +17,7 @@ describe('currencyIntegrityCheck', () => {
       {
         orders: [],
         transactions: [],
+        refunds: [],
         mapping: {
           status: mappingStatus,
           confidence: 'LOW',
@@ -53,7 +54,7 @@ describe('currencyIntegrityCheck', () => {
     );
 
     const finding = currencyIntegrityCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -92,7 +93,7 @@ describe('currencyIntegrityCheck', () => {
     );
 
     const finding = currencyIntegrityCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -138,7 +139,7 @@ describe('currencyIntegrityCheck', () => {
     );
 
     const finding = currencyIntegrityCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -193,7 +194,7 @@ describe('currencyIntegrityCheck', () => {
     );
 
     const finding = currencyIntegrityCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -235,7 +236,7 @@ describe('currencyIntegrityCheck', () => {
     );
 
     const finding = currencyIntegrityCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 

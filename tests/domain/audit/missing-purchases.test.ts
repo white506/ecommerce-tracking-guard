@@ -12,6 +12,7 @@ describe('missingPurchasesCheck', () => {
       {
         orders: [],
         transactions: [],
+        refunds: [],
         mapping: {
           status: 'UNRESOLVED',
           confidence: 'LOW',
@@ -48,6 +49,7 @@ describe('missingPurchasesCheck', () => {
       {
         orders: [],
         transactions: [],
+        refunds: [],
         mapping: {
           status: mappingStatus,
           confidence: 'LOW',
@@ -80,7 +82,7 @@ describe('missingPurchasesCheck', () => {
     expect(mapping.status).toBe('RESOLVED');
 
     const finding = missingPurchasesCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 
@@ -116,7 +118,7 @@ describe('missingPurchasesCheck', () => {
     expect(mapping.matches).toHaveLength(4);
 
     const finding = missingPurchasesCheck.run(
-      { orders, transactions, mapping },
+      { orders, transactions, refunds: [], mapping },
       AUDIT_POLICY_V1,
     );
 

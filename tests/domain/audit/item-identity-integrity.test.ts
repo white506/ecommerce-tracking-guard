@@ -60,6 +60,7 @@ function makeContext(
   return {
     orders: [order],
     transactions: [transaction],
+    refunds: [],
     mapping,
   };
 }
@@ -114,6 +115,7 @@ describe('itemIdentityIntegrityCheck', () => {
       {
         orders: context.orders,
         transactions: [transaction],
+        refunds: [],
         mapping,
       },
       AUDIT_POLICY_V1,
@@ -179,6 +181,7 @@ describe('itemIdentityIntegrityCheck', () => {
       {
         orders: [order],
         transactions: context.transactions,
+        refunds: [],
         mapping,
       },
       AUDIT_POLICY_V1,
@@ -238,6 +241,7 @@ describe('itemIdentityIntegrityCheck', () => {
       {
         orders: context.orders,
         transactions: [transaction],
+        refunds: [],
         mapping,
       },
       AUDIT_POLICY_V1,
@@ -316,6 +320,7 @@ describe('itemIdentityIntegrityCheck', () => {
       {
         orders: [order],
         transactions: [transaction],
+        refunds: [],
         mapping,
       },
       AUDIT_POLICY_V1,
@@ -433,6 +438,7 @@ describe('itemIdentityIntegrityCheck', () => {
       {
         orders: context.orders,
         transactions: [transaction],
+        refunds: [],
         mapping,
       },
       AUDIT_POLICY_V1,
@@ -508,6 +514,7 @@ describe('itemIdentityIntegrityCheck', () => {
       {
         orders: [order],
         transactions: [transaction],
+        refunds: [],
         mapping,
       },
       AUDIT_POLICY_V1,
@@ -548,6 +555,7 @@ describe('itemIdentityIntegrityCheck', () => {
       {
         orders: context.orders,
         transactions: [transaction],
+        refunds: [],
         mapping,
       },
       AUDIT_POLICY_V1,
@@ -603,6 +611,7 @@ describe('itemIdentityIntegrityCheck', () => {
       {
         orders: context.orders,
         transactions: [transaction],
+        refunds: [],
         mapping,
       },
       AUDIT_POLICY_V1,
@@ -667,6 +676,7 @@ describe('itemIdentityIntegrityCheck', () => {
       {
         orders: [firstMatch.order, secondOrder],
         transactions: [noItemsTransaction, mismatchedTransaction],
+        refunds: [],
         mapping,
       },
       AUDIT_POLICY_V1,
@@ -722,6 +732,7 @@ describe('itemIdentityIntegrityCheck', () => {
       {
         orders: [firstMatch.order, secondOrder],
         transactions: [firstMatch.transaction, noItemsTransaction],
+        refunds: [],
         mapping,
       },
       AUDIT_POLICY_V1,
@@ -778,6 +789,7 @@ describe('itemIdentityIntegrityCheck', () => {
       {
         orders: [order],
         transactions: [transaction],
+        refunds: [],
         mapping,
       },
       AUDIT_POLICY_V1,

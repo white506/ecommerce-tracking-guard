@@ -14,3 +14,11 @@ export type AnalyticsTransaction = Readonly<{
   currency: string | null;
   items: readonly AnalyticsItem[];
 }>;
+
+export type AnalyticsRefund = Readonly<{
+  transactionId: string;
+  occurredAt: string;
+  value: Money | null;
+  currency: string | null;
+  items: readonly AnalyticsItem[];
+}>;
