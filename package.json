@@ -12,6 +12,7 @@
     "@types/node": "^20.19.43",
     "eslint": "^9.39.5",
     "prettier": "^3.9.9",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.71.0",
     "vitest": "^3.2.4"
@@ -24,7 +25,8 @@
     "test": "vitest run",
     "db:up": "docker compose up -d postgres",
     "db:down": "docker compose down",
-    "db:logs": "docker compose logs -f postgres"
+    "db:logs": "docker compose logs -f postgres",
+    "audit:fixture": "tsx scripts/audit-fixture.ts"
   },
   "type": "module"
 }
