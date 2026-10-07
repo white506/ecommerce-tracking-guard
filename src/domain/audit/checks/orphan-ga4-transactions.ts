@@ -36,6 +36,10 @@ export const orphanGa4TransactionsCheck: AuditCheck = {
               'GA4 purchase transaction has no deterministically mapped source order.',
             data: {
               transactionId: transaction.transactionId,
+              observedOrphanTransaction: true,
+              expectedOrphanTransaction: false,
+              comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+              affectedCount: 1,
             },
           })),
           possibleCauses: [],
@@ -80,6 +84,7 @@ export const orphanGa4TransactionsCheck: AuditCheck = {
       metrics: {
         transactionCount: context.transactions.length,
         matchedCount: mapping.matches.length,
+        affectedCount: null,
       },
       evidence: [
         {
@@ -90,6 +95,10 @@ export const orphanGa4TransactionsCheck: AuditCheck = {
             mappingStatus: mapping.status,
             mappingConfidence: mapping.confidence,
             matchedCount: mapping.matches.length,
+            observedOrphanCount: null,
+            expectedOrphanCount: 0,
+            comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+            affectedCount: null,
           },
         },
       ],

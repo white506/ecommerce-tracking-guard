@@ -27,6 +27,8 @@ export const missingPurchasesCheck: AuditCheck = {
             orderCount: context.orders.length,
             matchedCount: mapping.matches.length,
             missingCount: missingOrders.length,
+            expectedMissingCount: 0,
+            affectedCount: missingOrders.length,
           },
           evidence: missingOrders.map((order) => ({
             type: 'MISSING_PURCHASE',
@@ -35,12 +37,17 @@ export const missingPurchasesCheck: AuditCheck = {
             data: {
               orderId: order.id,
               legacyResourceId: order.identifiers.legacyResourceId,
+              observedMissingPurchase: true,
+              expectedMissingPurchase: false,
+              comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+              affectedCount: 1,
             },
           })),
           possibleCauses: [],
           recommendations: [],
           limitations: [
             'Missing purchases are reported only after a deterministic transaction mapping strategy has been resolved.',
+            'Order cancellation, refund, and edit lifecycle semantics are not interpreted by this check.',
           ],
         };
       }
@@ -75,9 +82,10 @@ export const missingPurchasesCheck: AuditCheck = {
       confidence: mapping.confidence,
       title: 'Missing purchases cannot be determined',
       summary:
-        'Transaction mapping is unresolved, so missing purchases cannot be identified reliably.',
+        'Transaction mapping is not resolved, so missing purchases cannot be identified reliably.',
       metrics: {
         matchedCount: mapping.matches.length,
+        affectedCount: null,
       },
       evidence: [
         {
@@ -88,6 +96,9 @@ export const missingPurchasesCheck: AuditCheck = {
             mappingStatus: mapping.status,
             mappingConfidence: mapping.confidence,
             matchedCount: mapping.matches.length,
+            expectedMappingStatus: 'RESOLVED',
+            comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+            affectedCount: null,
           },
         },
       ],

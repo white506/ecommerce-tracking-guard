@@ -22,6 +22,7 @@ export const currencyIntegrityCheck: AuditCheck = {
           'Transaction mapping is not resolved, so currencies cannot be compared reliably.',
         metrics: {
           matchedCount: mapping.matches.length,
+          affectedCount: null,
         },
         evidence: [
           {
@@ -30,8 +31,11 @@ export const currencyIntegrityCheck: AuditCheck = {
               'Transaction mapping required to compare transaction currencies.',
             data: {
               mappingStatus: mapping.status,
+              expectedMappingStatus: 'RESOLVED',
               mappingConfidence: mapping.confidence,
               matchedCount: mapping.matches.length,
+              comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+              affectedCount: null,
             },
           },
         ],
@@ -98,6 +102,8 @@ export const currencyIntegrityCheck: AuditCheck = {
               transactionId: match.transaction.transactionId,
               expectedCurrency: match.order.currency,
               observedCurrency: match.transaction.currency,
+              comparisonBasis: 'SOURCE_ORDER_CURRENCY',
+              affectedCount: 1,
             },
           })),
           ...valueCurrencyMismatches.map((match) => ({
@@ -109,6 +115,8 @@ export const currencyIntegrityCheck: AuditCheck = {
               transactionId: match.transaction.transactionId,
               transactionCurrency: match.transaction.currency,
               valueCurrency: match.transaction.value?.currency ?? null,
+              comparisonBasis: 'GA4_TRANSACTION_VALUE_CURRENCY',
+              affectedCount: 1,
             },
           })),
           ...missingCurrencyMatches.map((match) => ({
@@ -120,6 +128,8 @@ export const currencyIntegrityCheck: AuditCheck = {
               transactionId: match.transaction.transactionId,
               expectedCurrency: match.order.currency,
               observedCurrency: null,
+              comparisonBasis: 'SOURCE_ORDER_CURRENCY',
+              affectedCount: 1,
             },
           })),
         ],
@@ -158,6 +168,8 @@ export const currencyIntegrityCheck: AuditCheck = {
             transactionId: match.transaction.transactionId,
             expectedCurrency: match.order.currency,
             observedCurrency: null,
+            comparisonBasis: 'SOURCE_ORDER_CURRENCY',
+            affectedCount: 1,
           },
         })),
         possibleCauses: [],

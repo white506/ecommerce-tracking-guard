@@ -64,6 +64,7 @@ describe('transactionMappingCheck', () => {
       orderCount: 0,
       transactionCount: 0,
       matchedCount: 0,
+      affectedCount: null,
     });
   });
 
@@ -94,6 +95,10 @@ describe('transactionMappingCheck', () => {
           transactionCount: 0,
           matchedCount: 0,
           candidateCount: 0,
+          observedMappingStatus: 'UNRESOLVED',
+          expectedMappingStatus: 'RESOLVED',
+          comparisonBasis: 'DETERMINISTIC_TRANSACTION_MAPPING',
+          affectedCount: null,
         },
       },
     ]);

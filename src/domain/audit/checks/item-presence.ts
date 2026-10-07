@@ -20,6 +20,7 @@ export const itemPresenceCheck: AuditCheck = {
           'Resolved transaction mapping is required to assess item presence.',
         metrics: {
           matchedCount: mapping.matches.length,
+          affectedCount: null,
         },
         evidence: [
           {
@@ -28,8 +29,11 @@ export const itemPresenceCheck: AuditCheck = {
               'Resolved transaction mapping is required to assess item presence.',
             data: {
               mappingStatus: mapping.status,
+              expectedMappingStatus: 'RESOLVED',
               mappingConfidence: mapping.confidence,
               matchedCount: mapping.matches.length,
+              comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+              affectedCount: null,
             },
           },
         ],
@@ -81,6 +85,7 @@ export const itemPresenceCheck: AuditCheck = {
               expectedItemPresence: true,
               sourceItemCount: match.order.items.length,
               observedItemCount: match.transaction.items.length,
+              affectedCount: 1,
             },
           })),
           ...unassessableMatches.map((match) => ({
@@ -91,8 +96,10 @@ export const itemPresenceCheck: AuditCheck = {
               orderId: match.order.id,
               transactionId: match.transaction.transactionId,
               comparisonBasis: 'SOURCE_ORDER_ITEM_DATA',
+              expectedSourceItemPresence: true,
               sourceItemCount: match.order.items.length,
               observedItemCount: match.transaction.items.length,
+              affectedCount: 1,
             },
           })),
         ],
@@ -130,8 +137,10 @@ export const itemPresenceCheck: AuditCheck = {
             orderId: match.order.id,
             transactionId: match.transaction.transactionId,
             comparisonBasis: 'SOURCE_ORDER_ITEM_DATA',
+            expectedSourceItemPresence: true,
             sourceItemCount: match.order.items.length,
             observedItemCount: match.transaction.items.length,
+            affectedCount: 1,
           },
         })),
         possibleCauses: [],

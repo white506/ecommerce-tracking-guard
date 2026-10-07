@@ -53,6 +53,8 @@ export const refundCoverageCheck: AuditCheck = {
             data: {
               mappingStatus: context.mapping.status,
               mappingConfidence: context.mapping.confidence,
+              expectedMappingStatus: 'RESOLVED',
+              comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
               affectedCount: refundedOrders.length,
             },
           },
@@ -177,6 +179,12 @@ export const refundCoverageCheck: AuditCheck = {
           data: {
             orderId: order.id,
             sourceRefundCount: order.refunds.length,
+            observedAnalyticsRefundEventCount: context.refunds.filter(
+              (refund) =>
+                refund.transactionId ===
+                matches.find((match) => match.order.id === order.id)
+                  ?.transaction.transactionId,
+            ).length,
             comparisonBasis: 'RESOLVED_PURCHASE_TRANSACTION_ID',
             affectedCount: 1,
           },

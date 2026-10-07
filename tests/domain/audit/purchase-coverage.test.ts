@@ -26,6 +26,27 @@ describe('purchaseCoverageCheck', () => {
     expect(finding.checkId).toBe('PURCHASE_COVERAGE');
     expect(finding.status).toBe('UNKNOWN');
     expect(finding.confidence).toBe('LOW');
+    expect(finding.metrics).toEqual({
+      orderCount: 0,
+      transactionCount: 0,
+      matchedCount: 0,
+      affectedCount: null,
+    });
+    expect(finding.evidence).toEqual([
+      {
+        type: 'TRANSACTION_MAPPING_RESULT',
+        description: 'Transaction mapping required for purchase coverage.',
+        data: {
+          mappingStatus: 'UNRESOLVED',
+          mappingConfidence: 'LOW',
+          matchedCount: 0,
+          observedCoverage: null,
+          expectedCoverage: 1,
+          comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+          affectedCount: null,
+        },
+      },
+    ]);
     expect(finding.limitations.length).toBeGreaterThan(0);
   });
 
@@ -50,6 +71,7 @@ describe('purchaseCoverageCheck', () => {
 
     expect(finding.status).toBe(expectedStatus);
     expect(finding.confidence).toBe('LOW');
+    expect(finding.summary).toContain(mappingStatus);
     expect(finding.evidence.length).toBeGreaterThan(0);
     expect(finding.limitations.length).toBeGreaterThan(0);
   });

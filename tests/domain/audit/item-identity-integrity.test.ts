@@ -141,6 +141,7 @@ describe('itemIdentityIntegrityCheck', () => {
           comparisonBasis: 'EXACT_SOURCE_ITEM_IDENTIFIER',
           expectedItemIdPresence: true,
           observedItemId: null,
+          affectedCount: 1,
         },
       },
     ]);
@@ -207,6 +208,7 @@ describe('itemIdentityIntegrityCheck', () => {
           itemId: 'SKU-1',
           comparisonBasis: 'EXACT_SOURCE_ITEM_IDENTIFIER',
           candidateCount: 2,
+          affectedCount: 1,
         },
       },
     ]);
@@ -267,6 +269,7 @@ describe('itemIdentityIntegrityCheck', () => {
           itemId: 'unknown-item',
           comparisonBasis: 'EXACT_SOURCE_ITEM_IDENTIFIER',
           candidateCount: 0,
+          affectedCount: 1,
         },
       },
     ]);
@@ -337,7 +340,9 @@ describe('itemIdentityIntegrityCheck', () => {
 
     expect(
       finding.evidence.some(
-        (evidence) => evidence.type === 'REUSED_SOURCE_ITEM_IDENTITY',
+        (evidence) =>
+          evidence.type === 'REUSED_SOURCE_ITEM_IDENTITY' &&
+          evidence.data.affectedCount === 1,
       ),
     ).toBe(true);
   });
@@ -567,6 +572,7 @@ describe('itemIdentityIntegrityCheck', () => {
     expect(finding.metrics).toEqual({
       matchedTransactionCount: 1,
       comparableTransactionCount: 0,
+      affectedCount: 1,
     });
     expect(finding.evidence).toEqual([
       {
@@ -578,6 +584,7 @@ describe('itemIdentityIntegrityCheck', () => {
           transactionId: 'legacy-1',
           comparisonBasis: 'SOURCE_AND_ANALYTICS_ITEMS_PRESENT',
           expectedSourceItemPresence: true,
+          affectedCount: 1,
           expectedAnalyticsItemPresence: true,
           observedSourceItemCount: 1,
           observedAnalyticsItemCount: 0,
@@ -746,6 +753,13 @@ describe('itemIdentityIntegrityCheck', () => {
       unassessableTransactionCount: 1,
       affectedCount: 1,
     });
+    expect(
+      finding.evidence.some(
+        (evidence) =>
+          evidence.type === 'ITEM_IDENTITY_NOT_ASSESSABLE' &&
+          evidence.data.affectedCount === 1,
+      ),
+    ).toBe(true);
     expect(finding.limitations.length).toBeGreaterThan(0);
   });
 

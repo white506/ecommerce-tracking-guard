@@ -31,7 +31,25 @@ describe('transactionValueIntegrityCheck', () => {
     expect(finding.checkId).toBe('TRANSACTION_VALUE_INTEGRITY');
     expect(finding.status).toBe(expectedStatus);
     expect(finding.confidence).toBe('LOW');
-    expect(finding.evidence.length).toBeGreaterThan(0);
+    expect(finding.metrics).toEqual({
+      matchedCount: 0,
+      affectedCount: null,
+    });
+    expect(finding.evidence).toEqual([
+      {
+        type: 'TRANSACTION_MAPPING_RESULT',
+        description:
+          'Transaction mapping required to compare transaction values.',
+        data: {
+          mappingStatus,
+          expectedMappingStatus: 'RESOLVED',
+          mappingConfidence: 'LOW',
+          matchedCount: 0,
+          comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+          affectedCount: null,
+        },
+      },
+    ]);
     expect(finding.limitations.length).toBeGreaterThan(0);
   });
 
@@ -87,6 +105,10 @@ describe('transactionValueIntegrityCheck', () => {
         data: {
           orderId: 'order-4',
           transactionId: 'legacy-4',
+          expectedTransactionValueAvailable: true,
+          observedTransactionValueAvailable: false,
+          comparisonBasis: 'SUM_SOURCE_ITEM_TOTALS',
+          affectedCount: 1,
         },
       },
     ]);
@@ -172,6 +194,10 @@ describe('transactionValueIntegrityCheck', () => {
       data: {
         orderId: 'order-0',
         transactionId: 'legacy-0',
+        expectedSourceItemTotalsAvailable: true,
+        observedSourceItemTotalsAvailable: false,
+        comparisonBasis: 'SUM_SOURCE_ITEM_TOTALS',
+        affectedCount: 1,
       },
     });
     expect(finding.limitations.length).toBeGreaterThan(0);
@@ -234,7 +260,10 @@ describe('transactionValueIntegrityCheck', () => {
           orderId: 'order-4',
           transactionId: 'legacy-4',
           sourceCurrency: 'USD',
+          expectedCurrency: 'USD',
           observedCurrency: 'EUR',
+          comparisonBasis: 'SAME_CURRENCY_REQUIRED',
+          affectedCount: 1,
         },
       },
     ]);
@@ -289,6 +318,8 @@ describe('transactionValueIntegrityCheck', () => {
       comparableCount: 5,
       mismatchCount: 1,
       affectedCount: 1,
+      affectedAmountMinor: '100',
+      affectedAmountCurrency: 'USD',
     });
     expect(finding.evidence).toEqual([
       {
@@ -303,6 +334,8 @@ describe('transactionValueIntegrityCheck', () => {
           observedAmountMinor: '900',
           differenceMinor: '100',
           currency: 'USD',
+          affectedCount: 1,
+          affectedAmountMinor: '100',
         },
       },
     ]);
@@ -428,6 +461,8 @@ describe('transactionValueIntegrityCheck', () => {
       mismatchCount: 1,
       unassessableCount: 1,
       affectedCount: 1,
+      affectedAmountMinor: '100',
+      affectedAmountCurrency: 'USD',
     });
 
     expect(finding.evidence).toContainEqual({
@@ -441,6 +476,8 @@ describe('transactionValueIntegrityCheck', () => {
         observedAmountMinor: '900',
         differenceMinor: '100',
         currency: 'USD',
+        affectedCount: 1,
+        affectedAmountMinor: '100',
       },
     });
 

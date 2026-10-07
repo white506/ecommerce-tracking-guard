@@ -64,6 +64,18 @@ export const transactionValueIntegrityCheck: AuditCheck = {
         currencyMismatchMatches.length;
 
       if (valueMismatches.length > 0) {
+        const affectedAmountMinor = valueMismatches.reduce(
+          (sum, mismatch) => sum + mismatch.differenceMinor,
+          0n,
+        );
+        const affectedCurrencies = new Set(
+          valueMismatches.map((mismatch) => mismatch.currency),
+        );
+        const affectedAmountCurrency =
+          affectedCurrencies.size === 1
+            ? (valueMismatches[0]?.currency ?? null)
+            : null;
+
         return {
           checkId: 'TRANSACTION_VALUE_INTEGRITY',
           status: 'FAIL',
@@ -78,6 +90,8 @@ export const transactionValueIntegrityCheck: AuditCheck = {
             mismatchCount: valueMismatches.length,
             ...(unassessableCount > 0 ? { unassessableCount } : {}),
             affectedCount: valueMismatches.length,
+            affectedAmountMinor: affectedAmountMinor.toString(),
+            affectedAmountCurrency,
           },
           evidence: [
             ...valueMismatches.map((mismatch) => ({
@@ -92,6 +106,8 @@ export const transactionValueIntegrityCheck: AuditCheck = {
                 observedAmountMinor: mismatch.observedAmountMinor.toString(),
                 differenceMinor: mismatch.differenceMinor.toString(),
                 currency: mismatch.currency,
+                affectedCount: 1,
+                affectedAmountMinor: mismatch.differenceMinor.toString(),
               },
             })),
             ...missingValueMatches.map((match) => ({
@@ -101,6 +117,10 @@ export const transactionValueIntegrityCheck: AuditCheck = {
               data: {
                 orderId: match.order.id,
                 transactionId: match.transaction.transactionId,
+                expectedTransactionValueAvailable: true,
+                observedTransactionValueAvailable: false,
+                comparisonBasis: 'SUM_SOURCE_ITEM_TOTALS',
+                affectedCount: 1,
               },
             })),
             ...missingItemBasisMatches.map((match) => ({
@@ -110,6 +130,10 @@ export const transactionValueIntegrityCheck: AuditCheck = {
               data: {
                 orderId: match.order.id,
                 transactionId: match.transaction.transactionId,
+                expectedSourceItemTotalsAvailable: true,
+                observedSourceItemTotalsAvailable: false,
+                comparisonBasis: 'SUM_SOURCE_ITEM_TOTALS',
+                affectedCount: 1,
               },
             })),
             ...currencyMismatchMatches.map((match) => ({
@@ -120,7 +144,10 @@ export const transactionValueIntegrityCheck: AuditCheck = {
                 orderId: match.order.id,
                 transactionId: match.transaction.transactionId,
                 sourceCurrency: match.order.items[0]?.total.currency ?? null,
+                expectedCurrency: match.order.items[0]?.total.currency ?? null,
                 observedCurrency: match.transaction.value?.currency ?? null,
+                comparisonBasis: 'SAME_CURRENCY_REQUIRED',
+                affectedCount: 1,
               },
             })),
           ],
@@ -144,6 +171,10 @@ export const transactionValueIntegrityCheck: AuditCheck = {
             data: {
               orderId: match.order.id,
               transactionId: match.transaction.transactionId,
+              expectedTransactionValueAvailable: true,
+              observedTransactionValueAvailable: false,
+              comparisonBasis: 'SUM_SOURCE_ITEM_TOTALS',
+              affectedCount: 1,
             },
           })),
           ...missingItemBasisMatches.map((match) => ({
@@ -153,6 +184,10 @@ export const transactionValueIntegrityCheck: AuditCheck = {
             data: {
               orderId: match.order.id,
               transactionId: match.transaction.transactionId,
+              expectedSourceItemTotalsAvailable: true,
+              observedSourceItemTotalsAvailable: false,
+              comparisonBasis: 'SUM_SOURCE_ITEM_TOTALS',
+              affectedCount: 1,
             },
           })),
           ...currencyMismatchMatches.map((match) => ({
@@ -163,7 +198,10 @@ export const transactionValueIntegrityCheck: AuditCheck = {
               orderId: match.order.id,
               transactionId: match.transaction.transactionId,
               sourceCurrency: match.order.items[0]?.total.currency ?? null,
+              expectedCurrency: match.order.items[0]?.total.currency ?? null,
               observedCurrency: match.transaction.value?.currency ?? null,
+              comparisonBasis: 'SAME_CURRENCY_REQUIRED',
+              affectedCount: 1,
             },
           })),
         ];
@@ -233,6 +271,7 @@ export const transactionValueIntegrityCheck: AuditCheck = {
         'Transaction mapping is not resolved, so transaction values cannot be compared reliably.',
       metrics: {
         matchedCount: mapping.matches.length,
+        affectedCount: null,
       },
       evidence: [
         {
@@ -241,8 +280,11 @@ export const transactionValueIntegrityCheck: AuditCheck = {
             'Transaction mapping required to compare transaction values.',
           data: {
             mappingStatus: mapping.status,
+            expectedMappingStatus: 'RESOLVED',
             mappingConfidence: mapping.confidence,
             matchedCount: mapping.matches.length,
+            comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+            affectedCount: null,
           },
         },
       ],

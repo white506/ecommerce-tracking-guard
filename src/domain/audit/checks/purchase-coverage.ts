@@ -74,12 +74,12 @@ export const purchaseCoverageCheck: AuditCheck = {
       severity: 'WARNING',
       confidence: mapping.confidence,
       title: 'Purchase coverage cannot be determined',
-      summary:
-        'Transaction mapping is unresolved, so purchase coverage cannot be measured reliably.',
+      summary: `Transaction mapping status is ${mapping.status}, so purchase coverage cannot be measured reliably.`,
       metrics: {
         orderCount: orders.length,
         transactionCount: transactions.length,
         matchedCount: mapping.matches.length,
+        affectedCount: null,
       },
       evidence: [
         {
@@ -89,6 +89,10 @@ export const purchaseCoverageCheck: AuditCheck = {
             mappingStatus: mapping.status,
             mappingConfidence: mapping.confidence,
             matchedCount: mapping.matches.length,
+            observedCoverage: null,
+            expectedCoverage: 1,
+            comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+            affectedCount: null,
           },
         },
       ],

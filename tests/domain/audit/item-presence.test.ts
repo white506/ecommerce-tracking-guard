@@ -120,6 +120,7 @@ describe('itemPresenceCheck', () => {
           expectedItemPresence: true,
           sourceItemCount: 1,
           observedItemCount: 0,
+          affectedCount: 1,
         },
       },
     ]);
@@ -166,8 +167,10 @@ describe('itemPresenceCheck', () => {
           orderId: 'order-1',
           transactionId: 'legacy-1',
           comparisonBasis: 'SOURCE_ORDER_ITEM_DATA',
+          expectedSourceItemPresence: true,
           sourceItemCount: 0,
           observedItemCount: 0,
+          affectedCount: 1,
         },
       },
     ]);
@@ -196,6 +199,7 @@ describe('itemPresenceCheck', () => {
     expect(finding.confidence).toBe('LOW');
     expect(finding.metrics).toEqual({
       matchedCount: 0,
+      affectedCount: null,
     });
     expect(finding.evidence).toEqual([
       {
@@ -204,8 +208,11 @@ describe('itemPresenceCheck', () => {
           'Resolved transaction mapping is required to assess item presence.',
         data: {
           mappingStatus,
+          expectedMappingStatus: 'RESOLVED',
           mappingConfidence: 'LOW',
           matchedCount: 0,
+          comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+          affectedCount: null,
         },
       },
     ]);

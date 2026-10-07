@@ -30,7 +30,27 @@ describe('orphanGa4TransactionsCheck', () => {
     expect(finding.checkId).toBe('ORPHAN_GA4_TRANSACTIONS');
     expect(finding.status).toBe(expectedStatus);
     expect(finding.confidence).toBe('LOW');
-    expect(finding.evidence.length).toBeGreaterThan(0);
+    expect(finding.metrics).toEqual({
+      transactionCount: 0,
+      matchedCount: 0,
+      affectedCount: null,
+    });
+    expect(finding.evidence).toEqual([
+      {
+        type: 'TRANSACTION_MAPPING_RESULT',
+        description:
+          'Transaction mapping required to identify orphan GA4 transactions.',
+        data: {
+          mappingStatus,
+          mappingConfidence: 'LOW',
+          matchedCount: 0,
+          observedOrphanCount: null,
+          expectedOrphanCount: 0,
+          comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+          affectedCount: null,
+        },
+      },
+    ]);
     expect(finding.limitations.length).toBeGreaterThan(0);
   });
 
@@ -107,6 +127,10 @@ describe('orphanGa4TransactionsCheck', () => {
           'GA4 purchase transaction has no deterministically mapped source order.',
         data: {
           transactionId: 'orphan-transaction',
+          observedOrphanTransaction: true,
+          expectedOrphanTransaction: false,
+          comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+          affectedCount: 1,
         },
       },
     ]);

@@ -199,6 +199,20 @@ describe('refundCoverageCheck', () => {
 
     expect(finding.status).toBe('UNKNOWN');
     expect(finding.metrics.affectedCount).toBe(1);
+    expect(finding.evidence).toEqual([
+      {
+        type: 'MULTIPLE_SOURCE_REFUNDS',
+        description:
+          'Multiple source refunds cannot be proven individually covered using purchase transaction ID alone.',
+        data: {
+          orderId: '1001',
+          sourceRefundCount: 2,
+          observedAnalyticsRefundEventCount: 1,
+          comparisonBasis: 'RESOLVED_PURCHASE_TRANSACTION_ID',
+          affectedCount: 1,
+        },
+      },
+    ]);
   });
 
   it.each([
@@ -231,6 +245,20 @@ describe('refundCoverageCheck', () => {
 
       expect(finding.status).toBe(expectedStatus);
       expect(finding.metrics.affectedCount).toBe(1);
+      expect(finding.evidence).toEqual([
+        {
+          type: 'TRANSACTION_MAPPING_RESULT',
+          description:
+            'Resolved purchase transaction mapping is required to evaluate refund coverage.',
+          data: {
+            mappingStatus,
+            mappingConfidence: 'LOW',
+            expectedMappingStatus: 'RESOLVED',
+            comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+            affectedCount: 1,
+          },
+        },
+      ]);
     },
   );
 });

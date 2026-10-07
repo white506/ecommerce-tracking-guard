@@ -26,6 +26,7 @@ describe('missingPurchasesCheck', () => {
     expect(finding.checkId).toBe('MISSING_PURCHASES');
     expect(finding.status).toBe('UNKNOWN');
     expect(finding.confidence).toBe('LOW');
+    expect(finding.metrics).toEqual({ matchedCount: 0, affectedCount: null });
     expect(finding.evidence).toEqual([
       {
         type: 'TRANSACTION_MAPPING_RESULT',
@@ -35,6 +36,9 @@ describe('missingPurchasesCheck', () => {
           mappingStatus: 'UNRESOLVED',
           mappingConfidence: 'LOW',
           matchedCount: 0,
+          expectedMappingStatus: 'RESOLVED',
+          comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+          affectedCount: null,
         },
       },
     ]);
@@ -62,6 +66,9 @@ describe('missingPurchasesCheck', () => {
 
     expect(finding.status).toBe(expectedStatus);
     expect(finding.confidence).toBe('LOW');
+    expect(finding.summary).toBe(
+      'Transaction mapping is not resolved, so missing purchases cannot be identified reliably.',
+    );
     expect(finding.evidence.length).toBeGreaterThan(0);
     expect(finding.limitations.length).toBeGreaterThan(0);
   });
@@ -128,6 +135,8 @@ describe('missingPurchasesCheck', () => {
       orderCount: 5,
       matchedCount: 4,
       missingCount: 1,
+      expectedMissingCount: 0,
+      affectedCount: 1,
     });
     expect(finding.evidence).toEqual([
       {
@@ -137,6 +146,10 @@ describe('missingPurchasesCheck', () => {
         data: {
           orderId: 'order-4',
           legacyResourceId: 'legacy-4',
+          observedMissingPurchase: true,
+          expectedMissingPurchase: false,
+          comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+          affectedCount: 1,
         },
       },
     ]);

@@ -42,6 +42,7 @@ export const transactionMappingCheck: AuditCheck = {
         orderCount: orders.length,
         transactionCount: transactions.length,
         matchedCount: mapping.matches.length,
+        ...(mapping.status === 'RESOLVED' ? {} : { affectedCount: null }),
       },
       evidence:
         mapping.status === 'RESOLVED'
@@ -57,6 +58,10 @@ export const transactionMappingCheck: AuditCheck = {
                   transactionCount: transactions.length,
                   matchedCount: mapping.matches.length,
                   candidateCount: mapping.candidates.length,
+                  observedMappingStatus: mapping.status,
+                  expectedMappingStatus: 'RESOLVED',
+                  comparisonBasis: 'DETERMINISTIC_TRANSACTION_MAPPING',
+                  affectedCount: null,
                 },
               },
             ],

@@ -48,6 +48,7 @@ export const transactionIdIntegrityCheck: AuditCheck = {
           'Transaction mapping is not resolved, so transaction identifiers cannot be validated reliably.',
         metrics: {
           matchedCount: mapping.matches.length,
+          affectedCount: null,
         },
         evidence: [
           {
@@ -56,8 +57,11 @@ export const transactionIdIntegrityCheck: AuditCheck = {
               'Resolved transaction mapping is required to validate transaction identifiers.',
             data: {
               mappingStatus: mapping.status,
+              expectedMappingStatus: 'RESOLVED',
               mappingConfidence: mapping.confidence,
               matchedCount: mapping.matches.length,
+              comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+              affectedCount: null,
             },
           },
         ],
@@ -120,6 +124,8 @@ export const transactionIdIntegrityCheck: AuditCheck = {
             strategy: match.strategy,
             expectedTransactionId,
             observedTransactionId: match.transaction.transactionId,
+            comparisonBasis: 'RESOLVED_MAPPING_STRATEGY',
+            affectedCount: 1,
           },
         })),
         possibleCauses: [],
@@ -158,6 +164,8 @@ export const transactionIdIntegrityCheck: AuditCheck = {
               strategy: match.strategy,
               expectedTransactionId,
               observedTransactionId: match.transaction.transactionId,
+              comparisonBasis: 'RESOLVED_MAPPING_STRATEGY',
+              affectedCount: 1,
             },
           }),
         ),

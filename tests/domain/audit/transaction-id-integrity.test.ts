@@ -126,6 +126,8 @@ describe('transactionIdIntegrityCheck', () => {
           strategy: 'LEGACY_RESOURCE_ID',
           expectedTransactionId: 'legacy-1',
           observedTransactionId: 'wrong-id',
+          comparisonBasis: 'RESOLVED_MAPPING_STRATEGY',
+          affectedCount: 1,
         },
       },
     ]);
@@ -153,6 +155,7 @@ describe('transactionIdIntegrityCheck', () => {
     expect(finding.confidence).toBe('LOW');
     expect(finding.metrics).toEqual({
       matchedCount: 0,
+      affectedCount: null,
     });
     expect(finding.evidence).toEqual([
       {
@@ -161,8 +164,11 @@ describe('transactionIdIntegrityCheck', () => {
           'Resolved transaction mapping is required to validate transaction identifiers.',
         data: {
           mappingStatus,
+          expectedMappingStatus: 'RESOLVED',
           mappingConfidence: 'LOW',
           matchedCount: 0,
+          comparisonBasis: 'RESOLVED_TRANSACTION_MAPPING',
+          affectedCount: null,
         },
       },
     ]);
@@ -210,6 +216,8 @@ describe('transactionIdIntegrityCheck', () => {
           strategy: 'CONFIRMATION_NUMBER',
           expectedTransactionId: null,
           observedTransactionId: 'CONF-1',
+          comparisonBasis: 'RESOLVED_MAPPING_STRATEGY',
+          affectedCount: 1,
         },
       },
     ]);

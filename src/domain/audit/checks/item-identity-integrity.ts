@@ -140,6 +140,7 @@ export const itemIdentityIntegrityCheck: AuditCheck = {
         metrics: {
           matchedTransactionCount: mapping.matches.length,
           comparableTransactionCount: 0,
+          affectedCount: unassessableMatches.length,
         },
         evidence: unassessableMatches.map((match) => ({
           type: 'ITEM_IDENTITY_NOT_ASSESSABLE',
@@ -153,6 +154,7 @@ export const itemIdentityIntegrityCheck: AuditCheck = {
             expectedAnalyticsItemPresence: true,
             observedSourceItemCount: match.order.items.length,
             observedAnalyticsItemCount: match.transaction.items.length,
+            affectedCount: 1,
           },
         })),
         possibleCauses: [],
@@ -242,6 +244,7 @@ export const itemIdentityIntegrityCheck: AuditCheck = {
               itemId: item.itemId,
               comparisonBasis: 'EXACT_SOURCE_ITEM_IDENTIFIER',
               candidateCount: item.candidateCount,
+              affectedCount: 1,
             },
           })),
           ...reusedItems.map((item) => ({
@@ -254,6 +257,7 @@ export const itemIdentityIntegrityCheck: AuditCheck = {
               itemId: item.itemId,
               sourceItemId: item.sourceItemId,
               comparisonBasis: 'ONE_TO_ONE_SOURCE_ITEM_IDENTITY',
+              affectedCount: 1,
             },
           })),
           ...ambiguousItems.map((item) => ({
@@ -266,6 +270,7 @@ export const itemIdentityIntegrityCheck: AuditCheck = {
               itemId: item.itemId,
               comparisonBasis: 'EXACT_SOURCE_ITEM_IDENTIFIER',
               candidateCount: item.candidateCount,
+              affectedCount: 1,
             },
           })),
           ...missingItemIdItems.map((item) => ({
@@ -278,6 +283,7 @@ export const itemIdentityIntegrityCheck: AuditCheck = {
               comparisonBasis: 'EXACT_SOURCE_ITEM_IDENTIFIER',
               expectedItemIdPresence: true,
               observedItemId: null,
+              affectedCount: 1,
             },
           })),
         ],
@@ -328,6 +334,7 @@ export const itemIdentityIntegrityCheck: AuditCheck = {
             itemId: item.itemId,
             comparisonBasis: 'EXACT_SOURCE_ITEM_IDENTIFIER',
             candidateCount: item.candidateCount,
+            affectedCount: 1,
           },
         })),
         possibleCauses: [],
@@ -364,6 +371,7 @@ export const itemIdentityIntegrityCheck: AuditCheck = {
             comparisonBasis: 'EXACT_SOURCE_ITEM_IDENTIFIER',
             expectedItemIdPresence: true,
             observedItemId: null,
+            affectedCount: 1,
           },
         })),
         possibleCauses: [],
@@ -401,6 +409,7 @@ export const itemIdentityIntegrityCheck: AuditCheck = {
             expectedAnalyticsItemPresence: true,
             observedSourceItemCount: match.order.items.length,
             observedAnalyticsItemCount: match.transaction.items.length,
+            affectedCount: 1,
           },
         })),
         possibleCauses: [],
